@@ -1,0 +1,225 @@
+/* Brand tokens: rose and gold come from the logo, Lora + Poppins from the social posts. */
+:root {
+  --bg: #ffffff;
+  --bg-soft: #fcf8f7;
+  --ink: #2b2220;
+  --muted: #6f625e;
+  --line: #efe7e5;
+  --line-strong: #e0d5d2;
+  --rose: #c0456a;
+  --rose-hover: #a8395b;
+  --rose-soft: #fcedf1;
+  --rose-line: #f2d3dc;
+  --gold: #8c6a28;
+  --gold-light: #e2c07a;
+
+  --display: 'Lora', Georgia, 'Times New Roman', serif;
+  --body: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: ui-monospace, 'SF Mono', Consolas, monospace;
+
+  --radius: 18px;
+  --radius-lg: 26px;
+  --shadow: 0 1px 2px rgb(43 34 32 / 0.04), 0 18px 40px -18px rgb(43 34 32 / 0.2);
+  --shadow-lg: 0 2px 6px rgb(43 34 32 / 0.05), 0 40px 80px -30px rgb(43 34 32 / 0.3);
+
+  --gutter: 20px;
+  --max: 1140px;
+  --nav-h: 68px;
+
+  color-scheme: light;
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 8px);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+img,
+svg {
+  display: block;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+h1 em,
+h2 em {
+  font-style: italic;
+  color: var(--rose);
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--max) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.eyebrow {
+  margin-bottom: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--gold);
+}
+
+.lead {
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  color: var(--muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: #fff;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  font: 500 15px/1.25 var(--body);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s,
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.btn svg {
+  flex: none;
+}
+
+.btn--primary {
+  background: var(--rose);
+  color: #fff;
+  box-shadow: 0 12px 24px -14px rgb(192 69 106 / 0.8);
+}
+
+.btn--primary:hover {
+  background: var(--rose-hover);
+  transform: translateY(-1px);
+}
+
+.btn--outline {
+  border-color: var(--rose);
+  color: var(--rose);
+}
+
+.btn--outline:hover {
+  background: var(--rose-soft);
+}
+
+.btn--ghost {
+  border-color: var(--line-strong);
+  background: #fff;
+  color: var(--ink);
+}
+
+.btn--ghost:hover {
+  border-color: var(--ink);
+}
+
+.btn--lg {
+  min-height: 56px;
+  padding: 14px 30px;
+  font-size: 16px;
+}
+
+.btn--sm {
+  min-height: 40px;
+  padding: 8px 18px;
+  font-size: 14px;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
