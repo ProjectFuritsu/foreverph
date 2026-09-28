@@ -5,7 +5,7 @@ export const brand = {
   name: 'ForeverPH',
   tagline: 'Custom wedding websites & digital invitations PH',
   // Your Facebook Page username: the part after facebook.com/ or m.me/
-  messengerUsername: 'YOUR_PAGE_USERNAME',
+  messengerUsername: 'Foreverph',
   // A live sample wedding website. Leave empty and the button becomes
   // "Ask for a live demo", which opens Messenger instead.
   sampleSiteUrl: '',
