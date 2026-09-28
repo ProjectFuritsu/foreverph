@@ -134,6 +134,26 @@ export const designs = [
 
 export const heroDesign = designs.find((d) => d.id === 'blush')
 
+// Each design has its own page to link from posts about it. It opens with
+// that design on the phone and gets its own Facebook preview.
+export const designPath = (design) => `/designs/${design.id}/`
+
+// The page title and the Facebook / Messenger link preview. The preview
+// pictures in public/share/ are made by `npm run share-images`.
+export const share = {
+  home: {
+    title: 'Wedding Websites with RSVP in the Philippines | ForeverPH',
+    description:
+      'Everything your guests need, in one link: details, map, schedule, photos and RSVP. Ready in 2–3 days, from ₱2,499.',
+    imageAlt: 'A ForeverPH wedding website on a phone, next to a new RSVP',
+  },
+  design: (design) => ({
+    title: `${design.name} Wedding Website with RSVP | ForeverPH`,
+    description: `${design.note}. Details, map, schedule, photos and RSVP in one link. Ready in 2–3 days, from ₱2,499.`,
+    imageAlt: `The ${design.name} wedding website design on a phone`,
+  }),
+}
+
 export const steps = [
   {
     title: 'Message us',

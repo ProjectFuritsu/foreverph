@@ -15,9 +15,9 @@ function fromQuery(name, options, fallback) {
 
 // Left: the sections every wedding website has. Right: how the selected
 // section looks on a guest's phone, in whichever design is picked.
-export default function SiteTour() {
+export default function SiteTour({ defaultDesign }) {
   const [activeId, setActiveId] = useState(() => fromQuery('section', features, features[0].id))
-  const [designId, setDesignId] = useState(() => fromQuery('design', designs, 'blush'))
+  const [designId, setDesignId] = useState(() => fromQuery('design', designs, defaultDesign.id))
   const tabRefs = useRef([])
   const active = features.find((feature) => feature.id === activeId)
   const design = designs.find((d) => d.id === designId)

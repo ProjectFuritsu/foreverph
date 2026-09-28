@@ -4,6 +4,7 @@ import SitePreview from './components/SitePreview.jsx'
 import SiteTour from './components/SiteTour.jsx'
 import {
   brand,
+  designPath,
   designs,
   faqs,
   guestQuestions,
@@ -17,6 +18,10 @@ import {
 } from './content.js'
 import { useNow } from './preview.js'
 import './App.css'
+
+// Design pages like /designs/midnight/ open on that design (see vite.config.js).
+const path = window.location.pathname.replace(/\/?$/, '/')
+const pageDesign = designs.find((design) => designPath(design) === path)
 
 // Nav border once the page scrolls; the mobile CTA bar shows between
 // the hero buttons and the final call-to-action.
@@ -101,7 +106,9 @@ function Hero({ now, ctaRef }) {
     <section className="hero" id="top">
       <div className="container hero__grid">
         <div className="hero__copy">
-          <p className="eyebrow">Wedding websites with RSVP</p>
+          <p className="eyebrow">
+            {pageDesign ? `${pageDesign.name} wedding website` : 'Wedding websites with RSVP'}
+          </p>
           <h1>
             Everything your guests need, <em>in one link.</em>
           </h1>
@@ -134,7 +141,7 @@ function Hero({ now, ctaRef }) {
         <div className="hero__visual">
           <div className="phone">
             <span className="phone__notch" aria-hidden="true" />
-            <SitePreview design={heroDesign} now={now} variant="hero" />
+            <SitePreview design={pageDesign ?? heroDesign} now={now} variant="hero" />
           </div>
           <div className="float float--rsvp" aria-hidden="true">
             <span className="float__icon">
@@ -206,7 +213,7 @@ function Features() {
         >
           Pick a section to see how it looks on your guests' phones, then try it in each design.
         </SectionHead>
-        <SiteTour />
+        <SiteTour defaultDesign={pageDesign ?? heroDesign} />
       </div>
     </section>
   )
