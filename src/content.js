@@ -31,6 +31,7 @@ export const messages = {
   demo: `Hi ${brand.name}! Can I see a live sample wedding website?`,
   package: (name) =>
     `Hi ${brand.name}! I'm interested in the ${name} package. Our wedding date is `,
+  seating: `Hi ${brand.name}! I'd like a wedding website with the seating plan and place cards. Our wedding date is `,
 }
 
 export const guestQuestions = [
@@ -54,6 +55,28 @@ export const features = [
     title: 'RSVP form',
     text: "Know who's coming, what they can eat and when they'll arrive, all in one guest list.",
     tags: ['Dietary needs', 'Allergies', 'Faith', 'Accessibility', 'Arrival time'],
+  },
+]
+
+// What the couple gets once RSVPs are in, shown in the "Seating" section.
+export const receptionTools = [
+  {
+    id: 'seating',
+    icon: 'seating',
+    title: 'Suggested seat arrangement by family',
+    text: 'Attending guests are grouped into tables by family name, so the Santos, Reyes and Cruz families each sit together. Big families get neighboring tables. Review, adjust, and your seating plan is done.',
+  },
+  {
+    id: 'cards',
+    icon: 'placecard',
+    title: 'Place-card generator',
+    text: "Printable place cards with each guest's name and table number, designed to match your motif.",
+  },
+  {
+    id: 'caterer',
+    icon: 'sheet',
+    title: 'Caterer export',
+    text: 'Final headcount per table plus dietary notes, ready to send to your caterer as Excel or PDF.',
   },
 ]
 
@@ -269,6 +292,18 @@ export const faqs = [
   {
     q: "What happens to our guests' RSVP answers?",
     a: "They're private. Guests can RSVP until your RSVP deadline. We delete the answers 2 months after your website goes offline, so ask us for your guest list before then.",
+  },
+  {
+    q: 'How do you arrange wedding seating by family?',
+    a: "Start with your final RSVP list, group guests by family name, keep plus-ones together, then fill tables based on your venue's capacity. Our suggested seat arrangement does this for you, and relatives with different surnames can be tagged to the same family group.",
+  },
+  {
+    q: 'What does a caterer need for the final headcount?',
+    a: 'Most caterers need the total number of guests, the headcount per table, and any dietary restrictions or special requests. Our caterer export includes all three.',
+  },
+  {
+    q: "Can we still change the seating after it's generated?",
+    a: 'Yes. The arrangement is only a suggestion. You can move guests between tables before printing your place cards.',
   },
   {
     q: 'Can guests open it from our printed invitation?',

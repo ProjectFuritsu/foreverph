@@ -45,6 +45,27 @@ const paths = {
       <path d="m9 12.5 2.2 2.2L15.5 10" />
     </>
   ),
+  seating: (
+    <>
+      <circle cx="12" cy="12" r="4.5" />
+      <circle cx="12" cy="3.8" r="1.5" />
+      <circle cx="12" cy="20.2" r="1.5" />
+      <circle cx="3.8" cy="12" r="1.5" />
+      <circle cx="20.2" cy="12" r="1.5" />
+    </>
+  ),
+  placecard: (
+    <>
+      <path d="M3.5 19 7 6h10l3.5 13Z" />
+      <path d="M9 13.5h6" />
+    </>
+  ),
+  sheet: (
+    <>
+      <rect x="4" y="3" width="16" height="18" rx="2" />
+      <path d="M4 9h16M4 15h16M10 3v18" />
+    </>
+  ),
   check: <path d="m5 12.5 4.5 4.5L19 7.5" />,
   arrow: <path d="M5 12h14m-5.5-6 6 6-6 6" />,
   down: <path d="M12 5v14m-6-5.5 6 6 6-6" />,

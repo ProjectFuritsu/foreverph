@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import Icon, { MessengerIcon } from './components/Icon.jsx'
+import ReceptionPreview from './components/ReceptionPreview.jsx'
 import SitePreview from './components/SitePreview.jsx'
 import SiteTour from './components/SiteTour.jsx'
 import {
@@ -13,6 +14,7 @@ import {
   messages,
   messengerUrl,
   packages,
+  receptionTools,
   specLabels,
   steps,
 } from './content.js'
@@ -120,6 +122,7 @@ function Nav({ scrolled }) {
         </a>
         <nav className="nav__links" aria-label="Sections">
           <a href="#designs">Designs</a>
+          <a href="#seating">Features</a>
           <a href="#how">How it works</a>
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
@@ -299,6 +302,48 @@ function Designs({ now }) {
             {sample.label}
             <Icon name="arrow" size={18} />
           </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// Tools for the couple that start from the RSVP list. A dark band, so it
+// stands apart from the guest-facing sections around it.
+function Seating() {
+  const design = pageDesign ?? heroDesign
+  return (
+    <section className="section section--dark" id="seating">
+      <div className="container">
+        <SectionHead
+          eyebrow="Seating plan, place cards & caterer headcount"
+          title={
+            <>
+              Your guest list, turned into <em>a reception plan.</em>
+            </>
+          }
+        >
+          Your wedding website does more than collect RSVPs. Once your guests reply, you get a
+          seating plan, printable place cards and a final headcount for your caterer.
+        </SectionHead>
+        <ul className="tools">
+          {receptionTools.map((tool) => (
+            <li className="tool" key={tool.id}>
+              <div className="tool__stage">
+                <ReceptionPreview tool={tool} design={design} />
+              </div>
+              <div className="tool__body">
+                <span className="tool__icon">
+                  <Icon name={tool.icon} size={20} />
+                </span>
+                <h3>{tool.title}</h3>
+                <p>{tool.text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div className="section__foot">
+          <MessengerButton message={messages.seating}>Ask about the features</MessengerButton>
         </div>
       </div>
     </section>
@@ -495,6 +540,7 @@ export default function App() {
         <GuestQuestions />
         <Features />
         <Designs now={now} />
+        <Seating />
         <HowItWorks />
         <Pricing currency={currency} />
         <Faq money={currency.money} />
