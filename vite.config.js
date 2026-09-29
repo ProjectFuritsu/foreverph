@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import react from '@vitejs/plugin-react'
 import { defineConfig, loadEnv } from 'vite'
-import { designPath, designs, share } from './src/content.js'
+import { brand, designPath, designs, share } from './src/content.js'
 
 const escape = (text) =>
   text.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;')
@@ -11,7 +11,8 @@ const escape = (text) =>
 // Facebook and Messenger read link previews from the HTML without running
 // JavaScript, so every page people share needs its tags in its own file.
 // This fills in index.html, and on build writes designs/<id>/index.html for
-// each design: the same page with that design's tags.
+// each design: the same page with that design's tags. It also writes
+// robots.txt and sitemap.xml so search engines find every page.
 function sharePages(siteUrl) {
   const home = { path: '/', image: 'home', ...share.home }
   const designPages = designs.map((design) => ({
@@ -31,9 +32,38 @@ function sharePages(siteUrl) {
     return `${url}?v=${version.slice(0, 8)}`
   }
 
+  // Tells Google the site is called "ForeverPH" (the name shown above the
+  // title in results) and ties the site, logo and Facebook Page together.
+  function structuredData() {
+    const organization = `${siteUrl}/#organization`
+    const json = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'WebSite',
+          name: brand.name,
+          alternateName: ['Forever PH', new URL(siteUrl).hostname],
+          url: `${siteUrl}/`,
+          publisher: { '@id': organization },
+        },
+        {
+          '@type': 'Organization',
+          '@id': organization,
+          name: brand.name,
+          url: `${siteUrl}/`,
+          logo: `${siteUrl}/icon-192.png`,
+          description: share.home.description,
+          areaServed: { '@type': 'Country', name: 'Philippines' },
+          sameAs: [brand.facebookUrl],
+        },
+      ],
+    })
+    return `<script type="application/ld+json">${json.replaceAll('<', '\\u003c')}</script>`
+  }
+
   function tags(page) {
     const url = siteUrl + page.path
-    return [
+    const lines = [
       `<title>${escape(page.title)}</title>`,
       `<meta name="description" content="${escape(page.description)}" />`,
       `<link rel="canonical" href="${url}" />`,
@@ -42,7 +72,9 @@ function sharePages(siteUrl) {
       `<meta property="og:description" content="${escape(page.description)}" />`,
       `<meta property="og:image" content="${imageUrl(page)}" />`,
       `<meta property="og:image:alt" content="${escape(page.imageAlt)}" />`,
-    ].join('\n    ')
+    ]
+    if (page === home) lines.push(structuredData())
+    return lines.join('\n    ')
   }
 
   return {
@@ -61,6 +93,16 @@ function sharePages(siteUrl) {
         mkdirSync(join(dir, page.path), { recursive: true })
         writeFileSync(join(dir, page.path, 'index.html'), html.replace(homeTags, tags(page)))
       }
+
+      writeFileSync(join(dir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`)
+      const urls = [home, ...designPages].map((page) => `  <url><loc>${siteUrl}${page.path}</loc></url>`)
+      const sitemap = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        ...urls,
+        '</urlset>',
+      ]
+      writeFileSync(join(dir, 'sitemap.xml'), `${sitemap.join('\n')}\n`)
     },
   }
 }

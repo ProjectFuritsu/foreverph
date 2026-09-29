@@ -8,11 +8,11 @@ import { designPath, designs } from '../src/content.js'
 
 const pages = [['home', '/'], ...designs.map((design) => [design.id, designPath(design)])]
 
-// A 1340×704 window, scrolled until the hero sits just under the sticky nav,
-// fits everything from the logo to the trust list in Facebook's 1.91:1
-// frame. The scale saves it at 1200×630.
+// A 1340×704 window, scrolled until the top 75px of the hero is tucked under
+// the sticky nav, fits everything from the logo to the trust list in
+// Facebook's 1.91:1 frame. The scale saves it at 1200×630.
 const viewport = { width: 1340, height: 704, deviceScaleFactor: 1200 / 1340 }
-const scroll = 75
+const heroTuck = 75
 
 const server = await createServer({ logLevel: 'warn' })
 await server.listen()
@@ -28,12 +28,14 @@ try {
   await mkdir('public/share', { recursive: true })
   for (const [name, path] of pages) {
     await page.goto(new URL(path, server.resolvedUrls.local[0]).href, { waitUntil: 'networkidle0' })
-    await page.evaluate(async (top) => {
+    await page.evaluate(async (tuck) => {
       await document.fonts.ready
-      window.scrollTo({ top, behavior: 'instant' })
+      const hero = document.querySelector('.hero')
+      const nav = document.querySelector('.nav')
+      window.scrollTo({ top: hero.offsetTop - nav.offsetHeight + tuck, behavior: 'instant' })
       // Let the nav pick up the scroll before the shot.
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
-    }, scroll)
+    }, heroTuck)
     await page.screenshot({ path: `public/share/${name}.jpg`, type: 'jpeg', quality: 90 })
     console.log(`public/share/${name}.jpg`)
   }

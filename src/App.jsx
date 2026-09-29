@@ -16,6 +16,7 @@ import {
   specLabels,
   steps,
 } from './content.js'
+import { pesoFormat, useCurrency } from './currency.js'
 import { useNow } from './preview.js'
 import './App.css'
 
@@ -79,6 +80,36 @@ function SectionHead({ eyebrow, title, children }) {
   )
 }
 
+const currencies = [
+  ['PHP', '₱ PHP'],
+  ['USD', '$ USD'],
+]
+
+// Prices are in pesos; couples abroad can switch the whole page to US dollars.
+function CurrencyBar({ currency }) {
+  return (
+    <div className="topbar">
+      <div className="container topbar__inner">
+        <p>
+          {currency.code === 'USD' ? `1 USD ≈ ${pesoFormat.format(currency.rate)}` : 'Show prices in'}
+        </p>
+        <div className="segmented segmented--sm" role="group" aria-label="Currency">
+          {currencies.map(([code, label]) => (
+            <button
+              key={code}
+              type="button"
+              aria-pressed={currency.code === code}
+              onClick={() => currency.choose(code)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function Nav({ scrolled }) {
   return (
     <header className={`nav${scrolled ? ' is-scrolled' : ''}`}>
@@ -101,7 +132,7 @@ function Nav({ scrolled }) {
   )
 }
 
-function Hero({ now, ctaRef }) {
+function Hero({ now, ctaRef, money }) {
   return (
     <section className="hero" id="top">
       <div className="container hero__grid">
@@ -114,7 +145,7 @@ function Hero({ now, ctaRef }) {
           </h1>
           <p className="lead">
             Details, map, schedule, photos, countdown and RSVP in one beautiful website, made for
-            Filipino weddings. Ready in 2–3 days, from ₱2,499.
+            Filipino weddings. Ready in 2–3 days, from {money('₱2,499')}.
           </p>
           <div className="hero__actions" ref={ctaRef}>
             <MessengerButton message={messages.general} size="lg" />
@@ -303,7 +334,8 @@ function HowItWorks() {
   )
 }
 
-function Pricing() {
+function Pricing({ currency }) {
+  const { money } = currency
   return (
     <section className="section section--soft" id="pricing">
       <div className="container">
@@ -323,7 +355,7 @@ function Pricing() {
               </header>
               <p className="plan__price">
                 {plan.pricePrefix && <small>{plan.pricePrefix}</small>}
-                <span>{plan.price}</span>
+                <span>{money(plan.price)}</span>
                 {plan.priceNote && <small>{plan.priceNote}</small>}
               </p>
               {specLabels.map((label, i) => {
@@ -332,7 +364,7 @@ function Pricing() {
                   <div className="spec" key={label}>
                     <span className="spec__label">{label}</span>
                     <span className="spec__value">
-                      {typeof value === 'string' ? value : <code>{value.link}</code>}
+                      {typeof value === 'string' ? money(value) : <code>{value.link}</code>}
                     </span>
                   </div>
                 )
@@ -347,13 +379,18 @@ function Pricing() {
             </article>
           ))}
         </div>
+        {currency.code === 'USD' && (
+          <p className="plans__estimate">
+            Dollar prices are estimates at today's rate of 1 USD ≈ {pesoFormat.format(currency.rate)}.
+          </p>
+        )}
         <div className="plans__notes">
           <p className="included">
             <strong>Every package includes</strong> {included}
           </p>
           <p className="referral">
             <Icon name="gift" size={22} />
-            Referred by a past couple? Get ₱200 off.
+            Referred by a past couple? Get {money('₱200')} off.
           </p>
         </div>
       </div>
@@ -361,7 +398,7 @@ function Pricing() {
   )
 }
 
-function Faq() {
+function Faq({ money }) {
   return (
     <section className="section" id="faq">
       <div className="container faq">
@@ -380,7 +417,7 @@ function Faq() {
                 {faq.q}
                 <Icon name="plus" size={20} className="faq__icon" />
               </summary>
-              <p>{faq.a}</p>
+              <p>{money(faq.a)}</p>
             </details>
           ))}
         </div>
@@ -417,6 +454,9 @@ function Footer() {
           {brand.name}
         </a>
         <p>{brand.tagline}</p>
+        <a href={brand.facebookUrl} target="_blank" rel="noopener noreferrer">
+          Facebook
+        </a>
         <p>
           © {new Date().getFullYear()} {brand.name}
         </p>
@@ -425,11 +465,11 @@ function Footer() {
   )
 }
 
-function MobileBar({ visible }) {
+function MobileBar({ visible, money }) {
   return (
     <div className={`mobile-bar${visible ? ' is-visible' : ''}`} inert={!visible}>
       <p className="mobile-bar__price">
-        From <strong>₱2,499</strong>
+        From <strong>{money('₱2,499')}</strong>
       </p>
       <MessengerButton message={messages.general}>Message us</MessengerButton>
     </div>
@@ -441,25 +481,27 @@ export default function App() {
   const heroCtaRef = useRef(null)
   const finalRef = useRef(null)
   const { scrolled, showBar } = useScrollState(heroCtaRef, finalRef)
+  const currency = useCurrency()
 
   return (
     <>
       <a className="skip-link" href="#main">
         Skip to content
       </a>
+      <CurrencyBar currency={currency} />
       <Nav scrolled={scrolled} />
       <main id="main">
-        <Hero now={now} ctaRef={heroCtaRef} />
+        <Hero now={now} ctaRef={heroCtaRef} money={currency.money} />
         <GuestQuestions />
         <Features />
         <Designs now={now} />
         <HowItWorks />
-        <Pricing />
-        <Faq />
+        <Pricing currency={currency} />
+        <Faq money={currency.money} />
         <FinalCta sectionRef={finalRef} />
       </main>
       <Footer />
-      <MobileBar visible={showBar} />
+      <MobileBar visible={showBar} money={currency.money} />
     </>
   )
 }

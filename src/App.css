@@ -1556,6 +1556,10 @@
   width: 24px;
 }
 
+.footer a:not(.brand):hover {
+  color: var(--ink);
+}
+
 /* ---------- Mobile CTA bar ---------- */
 .mobile-bar {
   position: fixed;
@@ -1626,6 +1630,40 @@
 .segmented button[aria-pressed='true'] {
   background: var(--ink);
   color: #fff;
+}
+
+.segmented--sm {
+  margin: 0;
+  padding: 3px;
+}
+
+.segmented--sm button {
+  min-height: 30px;
+  padding: 4px 14px;
+  font-size: 13px;
+}
+
+/* ---------- Currency bar (above the nav, scrolls away) ---------- */
+.topbar {
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-soft);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  min-height: 44px;
+}
+
+.plans__estimate {
+  margin-top: 18px;
+  font-size: 14px;
+  text-align: center;
+  color: var(--muted);
 }
 
 /* Photo hero: the couple's photo under a dark scrim so white text stays readable. */

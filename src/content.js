@@ -4,14 +4,21 @@
 export const brand = {
   name: 'ForeverPH',
   tagline: 'Custom wedding websites & digital invitations PH',
-  // Your Facebook Page username: the part after facebook.com/ or m.me/
+  // Your Facebook Page username (the part after facebook.com/), or the Page
+  // ID from facebook.com/profile.php?id=... if the Page has no username.
   messengerUsername: '61595113010562',
+  // Linked in the footer, and tells Google this Page and the site are one brand.
+  facebookUrl: 'https://www.facebook.com/profile.php?id=61595113010562',
   // A live sample wedding website. Leave empty and the button becomes
   // "Ask for a live demo", which opens Messenger instead.
   sampleSiteUrl: '',
   // Essentials sites live at yournames.<subdomain>
   subdomain: 'foreverph.com',
 }
+
+// Pesos per US dollar (28 Sep 2026), for the currency switch above the menu.
+// The site fetches today's rate and uses this one only if that fails.
+export const usdRate = 62.49
 
 // m.me pre-fills `text` for business Pages; elsewhere the chat just opens empty.
 export function messengerUrl(message) {
