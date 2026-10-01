@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/sample/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Title, description, fonts and theme colors are filled in from wedding.json by vite.config.js -->
+    <title>Isabel &amp; Miguel · April 24, 2027</title>
+    <script type="module" crossorigin src="/sample/assets/index-D_DtoTV4.js"></script>
+    <link rel="stylesheet" crossorigin href="/sample/assets/index-BFL2F-yI.css">
+    <meta name="description" content="Together with our families — Casa Alta Garden Pavilion">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Isabel &amp; Miguel · April 24, 2027">
+    <meta property="og:description" content="Together with our families — Casa Alta Garden Pavilion">
+    <meta name="theme-color" content="#fcf4f3">
+    <style>:root{--c-bg:#fcf4f3;--c-surface:#ffffff;--c-text:#3b2a2d;--c-muted:#80646a;--c-primary:#c98690;--c-accent:#9a5561;--c-on-primary:#1b1917;--f-script:'Allura', 'Brush Script MT', cursive;--f-heading:'Playfair Display', Georgia, 'Times New Roman', serif;--f-body:'Raleway', system-ui, -apple-system, 'Segoe UI', sans-serif;--hero-overlay:0.45}body{background:var(--c-bg);color:var(--c-text)}</style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;family=Raleway:wght@300;400;600&amp;display=swap">
+  </head>
+  <body>
+    <div id="root"></div>
+    <aside class="fph-sample" aria-label="About this sample">
+      <p class="fph-sample__about">
+        <img src="/logo.png" alt="" width="22" height="28" />
+        <span><strong>Sample website</strong> by ForeverPH</span>
+      </p>
+      <div class="fph-sample__designs" role="group" aria-label="Try another design">
+        <span class="fph-sample__name" aria-live="polite">Blush Romance</span>
+        <span class="fph-sample__swatches">
+          <button type="button" data-design="classic" aria-label="Classic Ivory" title="Classic Ivory" aria-pressed="false" style="--a:#fbf8f3;--b:#a8864f"></button>
+          <button type="button" data-design="sage" aria-label="Garden Sage" title="Garden Sage" aria-pressed="false" style="--a:#f3f5ef;--b:#7c9473"></button>
+          <button type="button" data-design="blush" aria-label="Blush Romance" title="Blush Romance" aria-pressed="true" style="--a:#fcf4f3;--b:#c98690"></button>
+          <button type="button" data-design="midnight" aria-label="Midnight Gold" title="Midnight Gold" aria-pressed="false" style="--a:#0f1b2d;--b:#d4b26a"></button>
+          <button type="button" data-design="terracotta" aria-label="Terracotta Boho" title="Terracotta Boho" aria-pressed="false" style="--a:#faf2ea;--b:#c0673e"></button>
+          <button type="button" data-design="minimal" aria-label="Modern Minimal" title="Modern Minimal" aria-pressed="false" style="--a:#ffffff;--b:#1f1f1f"></button>
+        </span>
+      </div>
+      <a class="fph-sample__cta" href="/">Get yours</a>
+    </aside>
+    <style>
+      .fph-sample { position: fixed; z-index: 90; left: 50%; bottom: max(12px, env(safe-area-inset-bottom)); translate: -50% 0; display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'about cta' 'designs designs'; align-items: center; gap: 10px 12px; width: min(420px, calc(100% - 24px)); margin: 0; padding: 10px 10px 12px 14px; border: 1px solid #efe7e5; border-radius: 22px; background: rgb(255 255 255 / 0.97); box-shadow: 0 18px 40px -18px rgb(43 34 32 / 0.5); font: 400 13px/1.3 system-ui, -apple-system, 'Segoe UI', sans-serif; color: #6f625e; }
+      .fph-sample__about { grid-area: about; display: flex; align-items: center; gap: 10px; margin: 0; }
+      .fph-sample__about img { flex: none; width: auto; height: 28px; }
+      .fph-sample strong { font-weight: 600; color: #2b2220; }
+      .fph-sample__cta { grid-area: cta; padding: 9px 16px; border-radius: 999px; background: #c0456a; color: #fff; font-weight: 600; text-decoration: none; }
+      .fph-sample__cta:hover { background: #a8395b; }
+      .fph-sample__designs { grid-area: designs; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 10px; border-top: 1px solid #efe7e5; }
+      .fph-sample__name { font-weight: 600; color: #2b2220; white-space: nowrap; }
+      .fph-sample__swatches { display: flex; gap: 8px; }
+      .fph-sample__swatches button { width: 24px; height: 24px; padding: 0; border: 1px solid rgb(0 0 0 / 0.12); border-radius: 50%; background: linear-gradient(135deg, var(--a) 0 50%, var(--b) 50% 100%); cursor: pointer; }
+      .fph-sample__swatches button[aria-pressed='true'] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #c0456a; }
+      .fph-sample :focus-visible { outline: 2px solid #c0456a; outline-offset: 3px; }
+      @media (min-width: 760px) {
+        .fph-sample { grid-template-columns: auto auto auto; grid-template-areas: 'about designs cta'; gap: 16px; width: max-content; padding: 7px 7px 7px 16px; border-radius: 999px; }
+        .fph-sample__designs { padding: 0 0 0 16px; border-top: 0; border-left: 1px solid #efe7e5; }
+      }
+      body { padding-bottom: 120px; }
+      @media (min-width: 760px) { body { padding-bottom: 80px; } }
+    </style>
+    <script>
+      (() => {
+        // Sample RSVPs aren't kept, so every visit starts with a fresh form
+        // (the key is from the template's src/lib/rsvpReceipt.js).
+        try {
+          localStorage.removeItem('wedding-rsvp-sent:isabel-and-miguel')
+        } catch {
+          // Storage blocked: nothing was remembered either.
+        }
+        const themes = {"classic":{"name":"Classic Ivory","vars":{"--c-bg":"#fbf8f3","--c-surface":"#ffffff","--c-text":"#2e2a25","--c-muted":"#766c61","--c-primary":"#a8864f","--c-accent":"#6e5634","--c-on-primary":"#1b1917","--f-script":"'Great Vibes', 'Brush Script MT', cursive","--f-heading":"'Cormorant Garamond', Georgia, 'Times New Roman', serif","--f-body":"'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif","--hero-overlay":"0.45"},"fonts":"https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap"},"sage":{"name":"Garden Sage","vars":{"--c-bg":"#f3f5ef","--c-surface":"#ffffff","--c-text":"#25302a","--c-muted":"#617065","--c-primary":"#7c9473","--c-accent":"#45604f","--c-on-primary":"#1b1917","--f-script":"'Parisienne', 'Brush Script MT', cursive","--f-heading":"'Playfair Display', Georgia, 'Times New Roman', serif","--f-body":"'Nunito Sans', system-ui, -apple-system, 'Segoe UI', sans-serif","--hero-overlay":"0.45"},"fonts":"https://fonts.googleapis.com/css2?family=Parisienne&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nunito+Sans:wght@300;400;700&display=swap"},"blush":{"name":"Blush Romance","vars":{"--c-bg":"#fcf4f3","--c-surface":"#ffffff","--c-text":"#3b2a2d","--c-muted":"#80646a","--c-primary":"#c98690","--c-accent":"#9a5561","--c-on-primary":"#1b1917","--f-script":"'Allura', 'Brush Script MT', cursive","--f-heading":"'Playfair Display', Georgia, 'Times New Roman', serif","--f-body":"'Raleway', system-ui, -apple-system, 'Segoe UI', sans-serif","--hero-overlay":"0.45"},"fonts":"https://fonts.googleapis.com/css2?family=Allura&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;600&display=swap"},"midnight":{"name":"Midnight Gold","vars":{"--c-bg":"#0f1b2d","--c-surface":"#172740","--c-text":"#f3eee3","--c-muted":"#a7b2c3","--c-primary":"#d4b26a","--c-accent":"#ebd9a8","--c-on-primary":"#1b1917","--f-script":"'Pinyon Script', 'Brush Script MT', cursive","--f-heading":"'Cinzel', Georgia, 'Times New Roman', serif","--f-body":"'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif","--hero-overlay":"0.45"},"fonts":"https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;600&display=swap"},"terracotta":{"name":"Terracotta Boho","vars":{"--c-bg":"#faf2ea","--c-surface":"#fffdf9","--c-text":"#3a2920","--c-muted":"#80634f","--c-primary":"#c0673e","--c-accent":"#8a4428","--c-on-primary":"#1b1917","--f-script":"'Great Vibes', 'Brush Script MT', cursive","--f-heading":"'DM Serif Display', Georgia, 'Times New Roman', serif","--f-body":"'Josefin Sans', system-ui, -apple-system, 'Segoe UI', sans-serif","--hero-overlay":"0.45"},"fonts":"https://fonts.googleapis.com/css2?family=Great+Vibes&family=DM+Serif+Display:ital@0;1&family=Josefin+Sans:wght@300;400;600&display=swap"},"minimal":{"name":"Modern Minimal","vars":{"--c-bg":"#ffffff","--c-surface":"#f5f5f3","--c-text":"#161616","--c-muted":"#666666","--c-primary":"#1f1f1f","--c-accent":"#1f1f1f","--c-on-primary":"#ffffff","--f-script":"'Allura', 'Brush Script MT', cursive","--f-heading":"'Libre Baskerville', Georgia, 'Times New Roman', serif","--f-body":"'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif","--hero-overlay":"0.45"},"fonts":"https://fonts.googleapis.com/css2?family=Allura&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap"}}
+        const bar = document.querySelector('.fph-sample')
+        const buttons = bar.querySelectorAll('[data-design]')
+        const override = document.head.appendChild(document.createElement('style'))
+        function show(id) {
+          const theme = themes[id]
+          const vars = Object.entries(theme.vars).map(([name, value]) => name + ':' + value + ' !important')
+          override.textContent = ':root, .ws {' + vars.join(';') + '}'
+          if (theme.fonts && !document.querySelector('link[href="' + theme.fonts + '"]')) {
+            document.head.append(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: theme.fonts }))
+          }
+          document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme.vars['--c-bg'])
+          bar.querySelector('.fph-sample__name').textContent = theme.name
+          buttons.forEach((button) => button.setAttribute('aria-pressed', button.dataset.design === id))
+        }
+        // /sample/?design=midnight opens the sample in that design.
+        const start = new URLSearchParams(location.search).get('design')
+        if (themes[start]) show(start)
+        buttons.forEach((button) =>
+          button.addEventListener('click', () => {
+            show(button.dataset.design)
+            const url = new URL(location.href)
+            url.searchParams.set('design', button.dataset.design)
+            history.replaceState(null, '', url)
+          }),
+        )
+      })()
+    </script>
+  </body>
+</html>

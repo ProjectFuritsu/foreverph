@@ -9,9 +9,10 @@ export const brand = {
   messengerUsername: '61595113010562',
   // Linked in the footer, and tells Google this Page and the site are one brand.
   facebookUrl: 'https://www.facebook.com/profile.php?id=61595113010562',
-  // A live sample wedding website. Leave empty and the button becomes
-  // "Ask for a live demo", which opens Messenger instead.
-  sampleSiteUrl: '',
+  // A live sample wedding website: /sample/ is built by `npm run sample`.
+  // Leave empty and the button becomes "Ask for a live demo", which opens
+  // Messenger instead.
+  sampleSiteUrl: '/sample/',
   // Essentials sites live at yournames.<subdomain>
   subdomain: 'foreverph.com',
 }
@@ -182,6 +183,12 @@ export const share = {
     description: `${design.note}. Details, map, schedule, photos and RSVP in one link. Ready in 2–3 days, from ₱2,499.`,
     imageAlt: `The ${design.name} wedding website design on a phone`,
   }),
+  sample: {
+    title: 'Sample Wedding Website with RSVP: Isabel & Miguel | ForeverPH',
+    description:
+      'Explore a real ForeverPH wedding website: details, map, schedule, photos, countdown and an RSVP form you can try.',
+    imageAlt: "Isabel & Miguel's sample wedding website by ForeverPH",
+  },
 }
 
 export const steps = [
