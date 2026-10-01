@@ -169,6 +169,10 @@ export const heroDesign = designs.find((d) => d.id === 'blush')
 // that design on the phone and gets its own Facebook preview.
 export const designPath = (design) => `/designs/${design.id}/`
 
+// The live sample (`npm run sample`) opens in each design at its own address,
+// so links shared on Facebook preview in that design.
+export const samplePath = (design) => `/sample/${design.id}/`
+
 // The page title and the Facebook / Messenger link preview. The preview
 // pictures in public/share/ are made by `npm run share-images`.
 export const share = {
@@ -186,9 +190,14 @@ export const share = {
   sample: {
     title: 'Sample Wedding Website with RSVP: Isabel & Miguel | ForeverPH',
     description:
-      'Explore a real ForeverPH wedding website: details, map, schedule, photos, countdown and an RSVP form you can try.',
+      'Explore a real ForeverPH wedding website: details, map, schedule, photos, countdown and an RSVP form you can try, in any of our 6 designs.',
     imageAlt: "Isabel & Miguel's sample wedding website by ForeverPH",
   },
+  sampleDesign: (design) => ({
+    title: `${design.name} Wedding Website Sample with RSVP | ForeverPH`,
+    description: `A live ForeverPH wedding website in the ${design.name} design. ${design.note}. Try the RSVP form and switch between all 6 designs.`,
+    imageAlt: `Isabel & Miguel's sample wedding website in the ${design.name} design`,
+  }),
 }
 
 export const steps = [

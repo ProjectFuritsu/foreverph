@@ -12,7 +12,7 @@ import { spawnSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { brand, designs } from '../src/content.js'
+import { brand, designs, share } from '../src/content.js'
 
 const template = resolve(import.meta.dirname, '../../WeddingWebsite')
 const outDir = resolve(import.meta.dirname, '../public/sample')
@@ -67,6 +67,7 @@ const themes = designs.map((design) => {
   return {
     id: design.id,
     name: design.name,
+    title: share.sampleDesign(design).title,
     swatch: [theme.colors.background, theme.colors.primary],
     vars: themeVars(theme),
     fonts: googleFontsHref(theme),
@@ -122,7 +123,7 @@ const bar = `<aside class="fph-sample" aria-label="About this sample">
         } catch {
           // Storage blocked: nothing was remembered either.
         }
-        const themes = ${JSON.stringify(Object.fromEntries(themes.map(({ id, name, vars, fonts }) => [id, { name, vars, fonts }])))}
+        const themes = ${JSON.stringify(Object.fromEntries(themes.map(({ id, name, title, vars, fonts }) => [id, { name, title, vars, fonts }])))}
         const bar = document.querySelector('.fph-sample')
         const buttons = bar.querySelectorAll('[data-design]')
         const override = document.head.appendChild(document.createElement('style'))
@@ -134,18 +135,30 @@ const bar = `<aside class="fph-sample" aria-label="About this sample">
             document.head.append(Object.assign(document.createElement('link'), { rel: 'stylesheet', href: theme.fonts }))
           }
           document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme.vars['--c-bg'])
+          document.title = theme.title
           bar.querySelector('.fph-sample__name').textContent = theme.name
           buttons.forEach((button) => button.setAttribute('aria-pressed', button.dataset.design === id))
         }
-        // /sample/?design=midnight opens the sample in that design.
-        const start = new URLSearchParams(location.search).get('design')
-        if (themes[start]) show(start)
+        // /sample/midnight/ opens the sample in that design. Each design has its
+        // own page there, so a copied link previews in that design on Facebook.
+        // Older ?design=midnight links still work.
+        function moveTo(id) {
+          const url = new URL(location.href)
+          url.pathname = '/sample/' + id + '/'
+          url.searchParams.delete('design')
+          history.replaceState(null, '', url)
+        }
+        const fromPath = location.pathname.match(/^\\/sample\\/([a-z]+)\\/?$/)?.[1]
+        const fromQuery = new URLSearchParams(location.search).get('design')
+        if (themes[fromPath]) show(fromPath)
+        else if (themes[fromQuery]) {
+          show(fromQuery)
+          moveTo(fromQuery)
+        }
         buttons.forEach((button) =>
           button.addEventListener('click', () => {
             show(button.dataset.design)
-            const url = new URL(location.href)
-            url.searchParams.set('design', button.dataset.design)
-            history.replaceState(null, '', url)
+            moveTo(button.dataset.design)
           }),
         )
       })()

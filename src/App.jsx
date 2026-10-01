@@ -15,6 +15,7 @@ import {
   messengerUrl,
   packages,
   receptionTools,
+  samplePath,
   specLabels,
   steps,
 } from './content.js'
@@ -263,8 +264,10 @@ function Designs({ now }) {
   const [withPhoto, setWithPhoto] = useState(
     () => new URLSearchParams(window.location.search).get('designs') === 'photos',
   )
-  const sample = brand.sampleSiteUrl
-    ? { href: brand.sampleSiteUrl, label: 'See a live sample' }
+  // On a design's page, the live sample opens in that design.
+  const sampleUrl = brand.sampleSiteUrl && pageDesign ? samplePath(pageDesign) : brand.sampleSiteUrl
+  const sample = sampleUrl
+    ? { href: sampleUrl, label: 'See a live sample' }
     : { href: messengerUrl(messages.demo), label: 'Ask for a live demo' }
   return (
     <section className="section section--soft" id="designs">

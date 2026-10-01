@@ -3,21 +3,16 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import react from '@vitejs/plugin-react'
 import { defineConfig, loadEnv } from 'vite'
-import { brand, designPath, designs, share } from './src/content.js'
+import { brand, designPath, designs, samplePath, share } from './src/content.js'
 
 const escape = (text) =>
   text.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;')
 
-// Preview tags the sample needs on top of its page tags. The other pages get
-// these from index.html, but the sample's page comes from the template.
-const sampleMeta = [
-  `<meta property="og:site_name" content="${brand.name}" />`,
-  '<meta property="og:locale" content="en_PH" />',
-  '<meta property="og:image:type" content="image/jpeg" />',
-  '<meta property="og:image:width" content="1200" />',
-  '<meta property="og:image:height" content="630" />',
-  '<meta name="twitter:card" content="summary_large_image" />',
-]
+// Preview tags in index.html that every page shares: site name, language,
+// Facebook Page and picture size. The sample's pages come from the template,
+// so they get copies of these.
+const SHARED_META =
+  /<meta (property="(og:site_name|og:locale|fb:pages|og:image:(type|width|height))"|name="twitter:card") [^>]*>/g
 
 // Facebook and Messenger read link previews from the HTML without running
 // JavaScript, so every page people share needs its tags in its own file.
@@ -31,9 +26,17 @@ function sharePages(siteUrl) {
     image: design.id,
     ...share.design(design),
   }))
-  // The live sample from `npm run sample`, already in public/sample/.
-  const samplePage = { path: '/sample/', image: 'sample', ...share.sample }
-  const allPages = [home, ...designPages, samplePage]
+  // The live sample from `npm run sample`, already in public/sample/, plus a
+  // page that opens it in each design.
+  const samplePages = [
+    { path: '/sample/', image: 'sample', ...share.sample },
+    ...designs.map((design) => ({
+      path: samplePath(design),
+      image: `sample-${design.id}`,
+      ...share.sampleDesign(design),
+    })),
+  ]
+  const allPages = [home, ...designPages, ...samplePages]
 
   const imageFile = (page) => new URL(`./public/share/${page.image}.jpg`, import.meta.url)
 
@@ -94,14 +97,13 @@ function sharePages(siteUrl) {
   return {
     name: 'share-pages',
     transformIndexHtml: (html) => html.replace('<!-- page tags -->', tags(home)),
-    // The dev server answers /sample/ with this site's own page, so point it
-    // at the sample's page. (The host and `vite preview` already do this.)
+    // The dev server answers /sample/ and /sample/<design>/ with this site's
+    // own page, so point them at the sample's page, which reads the design
+    // from the address. (The build writes a real page for each.)
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const url = new URL(req.url, 'http://localhost')
-        if (url.pathname === '/sample' || url.pathname === '/sample/') {
-          req.url = `/sample/index.html${url.search}`
-        }
+        if (/^\/sample(\/[a-z]+)?\/?$/.test(url.pathname)) req.url = `/sample/index.html${url.search}`
         next()
       })
     },
@@ -119,15 +121,24 @@ function sharePages(siteUrl) {
         writeFileSync(join(dir, page.path, 'index.html'), html.replace(homeTags, tags(page)))
       }
 
-      // The sample keeps the template's page but swaps the couple's title and
-      // preview for ForeverPH's, so shared links say whose sample it is.
-      const sampleFile = join(dir, samplePage.path, 'index.html')
+      // The sample's pages keep the template's page but swap the couple's
+      // title and preview for ForeverPH's, so shared links say whose sample
+      // it is. Each design's page is the same page; its script reads the
+      // design from the address.
+      const sampleFile = join(dir, 'sample/index.html')
       if (!existsSync(sampleFile)) throw new Error('No sample in public/sample/. Run npm run sample.')
       const sampleHtml = readFileSync(sampleFile, 'utf8')
         .replace(/<title>.*?<\/title>\s*/, '')
         .replace(/<meta (name="description"|property="og:(title|description)") [^>]*>\s*/g, '')
-      const sampleTags = [tags(samplePage), ...sampleMeta].join('\n    ')
-      writeFileSync(sampleFile, sampleHtml.replace('</head>', `  ${sampleTags}\n  </head>`))
+      const sharedMeta = html.match(SHARED_META) ?? []
+      if (!sharedMeta.some((tag) => tag.includes('fb:pages'))) {
+        throw new Error('share-pages: shared preview tags not found in index.html')
+      }
+      for (const page of samplePages) {
+        const pageTags = [tags(page), ...sharedMeta].join('\n    ')
+        mkdirSync(join(dir, page.path), { recursive: true })
+        writeFileSync(join(dir, page.path, 'index.html'), sampleHtml.replace('</head>', `  ${pageTags}\n  </head>`))
+      }
 
       writeFileSync(join(dir, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`)
       const urls = allPages.map((page) => `  <url><loc>${siteUrl}${page.path}</loc></url>`)
